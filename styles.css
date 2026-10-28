@@ -1340,15 +1340,9 @@ body.motion-ready [data-reveal].is-visible {
     width: var(--logo-w);
   }
 
-  /* The logo artwork has ~21% empty space on its left; pull it back so the mark sits on the page margin */
-  .site-header .brand-logo {
-    margin-left: calc(var(--logo-w) * -0.21);
-  }
-
   .footer-brand .brand-logo {
     --logo-w: 168px;
     width: var(--logo-w);
-    margin-left: calc(var(--logo-w) * -0.21);
   }
 
   .site-header {
@@ -1822,19 +1816,28 @@ body.motion-ready [data-reveal].is-visible {
   }
 
   .site-footer {
-    min-height: 92px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    min-height: 0;
     padding: 0 7%;
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
 
   .footer-brand .brand-logo {
-    --logo-w: 144px;
+    --logo-w: min(144px, 35vw);
   }
 
   .site-footer > p {
-    display: flex;
+    display: block;
+    min-width: 0;
+    text-align: right;
   }
 
   .site-footer > span {
+    grid-column: 1 / -1;
+    justify-self: end;
     font-size: 9px;
   }
 }
@@ -1862,10 +1865,6 @@ body.motion-ready [data-reveal].is-visible {
   .brand-logo {
     --logo-w: min(315px, calc(88vw - 100px));
     width: var(--logo-w);
-  }
-
-  .footer-brand .brand-logo {
-    --logo-w: 138px;
   }
 
   .hero-bottom {

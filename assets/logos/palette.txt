@@ -1,4 +1,4 @@
-DuraWeb brand palette
+DuraTechnologies brand palette
 
 Brand navy                 #152643
 Brand gold                 #B18C3E
@@ -16,7 +16,7 @@ Light theme
 --muted-foreground         #657186
 --border                   #D9DEE7
 --ring                     #152643
-Logo                       LogoSVG.svg (navy and gold)
+Logo                       DuraTechnologies.png (navy and gold)
 
 Dark theme
 --background               #152643
@@ -30,4 +30,4 @@ Dark theme
 --muted-foreground         #B0BAC8
 --border                   #354761
 --ring                     #B18C3E
-Logo                       LogoSVG_DarkMode.svg (white and gold)
+Logo                       DuraTechnologiesDark.png (white and gold)
