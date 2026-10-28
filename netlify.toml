@@ -24,6 +24,18 @@
     Cache-Control = "public, max-age=0, must-revalidate"
 
 [[redirects]]
+  from = "https://duraweb.com/*"
+  to = "https://duratechsoftware.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.duraweb.com/*"
+  to = "https://duratechsoftware.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/index.html"
   to = "/"
   status = 301

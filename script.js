@@ -453,29 +453,54 @@ const contactForm = document.querySelector("#contact-form");
 const formStatus = document.querySelector("#form-status");
 
 if (contactForm instanceof HTMLFormElement && formStatus) {
-  contactForm.addEventListener("submit", (event) => {
+  contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     if (!contactForm.reportValidity()) {
       return;
     }
 
-    const recipient = contactForm.getAttribute("action")?.replace(/^mailto:/, "");
-    if (!recipient) {
-      formStatus.textContent = "The contact form is not configured. Please use the contact email shown on this page.";
-      return;
-    }
-
     const formData = new FormData(contactForm);
     const name = String(formData.get("name") ?? "");
     const email = String(formData.get("email") ?? "");
-    const phone = String(formData.get("phone") ?? "");
-    const project = String(formData.get("project") ?? "");
-    const message = String(formData.get("message") ?? "");
-    const subject = `Website enquiry from ${name}`;
-    const body = [`Name: ${name}`, `Email: ${email}`, `Phone: ${phone || "Not provided"}`, `Project: ${project || "Not specified"}`, "", message].join("\n");
+    formData.append("_replyto", email);
+    formData.append("_subject", `Website enquiry from ${name}`);
 
-    window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    formStatus.textContent = `Your email app should open with your message addressed to ${recipient}.`;
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    if (!(submitButton instanceof HTMLButtonElement)) {
+      throw new Error("Contact form submit button was not found.");
+    }
+
+    const submitLabel = submitButton.querySelector("span");
+    const originalLabel = submitLabel?.textContent ?? "";
+    submitButton.disabled = true;
+    if (submitLabel) {
+      submitLabel.textContent = "Sending...";
+    }
+    formStatus.textContent = "Sending your enquiry...";
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: "POST",
+        body: formData,
+        headers: { Accept: "application/json" },
+      });
+
+      if (!response.ok) {
+        formStatus.textContent = "We couldn't send your enquiry. Please try again or contact us on WhatsApp.";
+        return;
+      }
+
+      formStatus.textContent = "Thanks for your enquiry. We'll be in touch soon.";
+      contactForm.reset();
+    } catch (error) {
+      console.error("Contact form submission failed:", error);
+      formStatus.textContent = "We couldn't send your enquiry. Check your connection and try again, or contact us on WhatsApp.";
+    } finally {
+      submitButton.disabled = false;
+      if (submitLabel) {
+        submitLabel.textContent = originalLabel;
+      }
+    }
   });
 }
