@@ -462,9 +462,8 @@ if (contactForm instanceof HTMLFormElement && formStatus) {
 
     const formData = new FormData(contactForm);
     const name = String(formData.get("name") ?? "");
-    const email = String(formData.get("email") ?? "");
-    formData.append("_replyto", email);
-    formData.append("_subject", `Website enquiry from ${name}`);
+    formData.append("subject", `Website enquiry from ${name}`);
+    formData.append("from_name", "Duranex Website");
 
     const submitButton = contactForm.querySelector('button[type="submit"]');
     if (!(submitButton instanceof HTMLButtonElement)) {
@@ -486,7 +485,9 @@ if (contactForm instanceof HTMLFormElement && formStatus) {
         headers: { Accept: "application/json" },
       });
 
-      if (!response.ok) {
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || !result?.success) {
         formStatus.textContent = "We couldn't send your enquiry. Please try again or contact us on WhatsApp.";
         return;
       }
