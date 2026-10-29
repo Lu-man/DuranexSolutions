@@ -25,13 +25,31 @@
 
 [[redirects]]
   from = "https://duraweb.com/*"
-  to = "https://duratechsoftware.com/:splat"
+  to = "https://duranexsolutions.com/:splat"
   status = 301
   force = true
 
 [[redirects]]
   from = "https://www.duraweb.com/*"
-  to = "https://duratechsoftware.com/:splat"
+  to = "https://duranexsolutions.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://duratechsoftware.com/*"
+  to = "https://duranexsolutions.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.duratechsoftware.com/*"
+  to = "https://duranexsolutions.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://www.duranexsolutions.com/*"
+  to = "https://duranexsolutions.com/:splat"
   status = 301
   force = true
 
