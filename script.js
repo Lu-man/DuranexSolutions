@@ -285,6 +285,32 @@ if (hero && meshCanvas && meshContext) {
   createMesh();
 }
 
+const pointerGlowSections = [...document.querySelectorAll(".intro, .services")];
+const finePointerPreference = window.matchMedia("(hover: hover) and (pointer: fine)");
+
+if (pointerGlowSections.length && finePointerPreference.matches) {
+  pointerGlowSections.forEach((section) => {
+    section.addEventListener(
+      "pointermove",
+      (event) => {
+        if (event.pointerType === "touch" || motionPreference.matches) {
+          return;
+        }
+
+        const bounds = section.getBoundingClientRect();
+        section.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+        section.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+        section.classList.add("has-pointer-glow");
+      },
+      { passive: true },
+    );
+
+    section.addEventListener("pointerleave", () => {
+      section.classList.remove("has-pointer-glow");
+    });
+  });
+}
+
 const currentYear = document.querySelector("#current-year");
 if (currentYear) {
   currentYear.textContent = String(new Date().getFullYear());
