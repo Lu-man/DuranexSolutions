@@ -1,5 +1,35 @@
 const menuToggle = document.querySelector(".menu-toggle");
 const siteNav = document.querySelector(".site-nav");
+const legalTriggers = document.querySelectorAll("[data-legal-trigger]");
+
+legalTriggers.forEach((trigger) => {
+  if (!(trigger instanceof HTMLButtonElement)) {
+    throw new Error("Legal dialog trigger must be a button.");
+  }
+
+  const dialogId = trigger.getAttribute("aria-controls");
+  const dialog = dialogId ? document.getElementById(dialogId) : null;
+  if (!(dialog instanceof HTMLDialogElement)) {
+    throw new Error("A legal dialog trigger must reference an existing dialog.");
+  }
+
+  trigger.addEventListener("click", () => {
+    dialog.showModal();
+  });
+
+  dialog.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      dialog.close();
+    }
+  });
+
+  dialog.addEventListener("click", (event) => {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
+});
 
 if (menuToggle && siteNav) {
   menuToggle.addEventListener("click", () => {
@@ -37,6 +67,7 @@ const revealGroups = [
   [".process-intro-copy", "right"],
   [".process-steps-heading", "bottom"],
   [".process-card", "bottom"],
+  [".process-flexibility", "bottom"],
   [".contact .section-kicker", "top"],
   [".contact-eyebrow", "right"],
   [".contact h2", "left"],
