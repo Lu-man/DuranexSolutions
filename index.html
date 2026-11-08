@@ -41,13 +41,8 @@
     <link rel="icon" href="assets/logos/favicon-16x16.png" type="image/png" sizes="16x16" />
     <link rel="apple-touch-icon" href="assets/logos/apple-touch-icon.png" />
     <link rel="manifest" href="assets/logos/site.webmanifest" />
-    <link rel="preload" href="assets/logos/DuranexDark.png" as="image" type="image/png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="preload" href="assets/images/tp193-audi-mobile.webp" as="image" type="image/webp" media="(max-width: 700px)" fetchpriority="high" />
+    <link rel="preload" href="assets/images/tp193-audi-0003.webp" as="image" type="image/webp" media="(min-width: 701px)" fetchpriority="high" />
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
     <script type="application/ld+json">
@@ -179,7 +174,10 @@
         <div class="project-grid">
           <article class="portfolio-card">
             <a class="portfolio-image" href="https://alsr-sa.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Advanced Laser Surface Restoration (opens in a new tab)">
-              <img src="assets/images/alsr-home.jpg" alt="Advanced Laser Surface Restoration website homepage" width="1280" height="800" loading="lazy" decoding="async" />
+              <picture>
+                <source srcset="assets/images/alsr-home.webp" type="image/webp" />
+                <img src="assets/images/alsr-home.jpg" alt="Advanced Laser Surface Restoration website homepage" width="1280" height="800" loading="lazy" decoding="async" />
+              </picture>
             </a>
             <div class="portfolio-body">
               <p class="project-category">INDUSTRIAL SERVICES</p>
@@ -190,7 +188,10 @@
           </article>
           <article class="portfolio-card">
             <a class="portfolio-image" href="https://charmzcakes.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit Charmz Cakes (opens in a new tab)">
-              <img src="assets/images/charmz-home.jpg" alt="Charmz Cakes website homepage" width="1280" height="800" loading="lazy" decoding="async" />
+              <picture>
+                <source srcset="assets/images/charmz-home.webp" type="image/webp" />
+                <img src="assets/images/charmz-home.jpg" alt="Charmz Cakes website homepage" width="1280" height="800" loading="lazy" decoding="async" />
+              </picture>
             </a>
             <div class="portfolio-body">
               <p class="project-category">FOOD &amp; HOSPITALITY</p>
@@ -424,52 +425,56 @@
         <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
           <input type="hidden" name="access_key" value="7659c6b6-07e3-429c-95a5-7b0f758ee599" />
           <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display: none" aria-hidden="true" />
-          <fieldset class="goal-field infrastructure-field form-field-full">
-            <legend>Select Your Required Infrastructure:</legend>
-            <p class="infrastructure-hint">The foundation is required for standard monthly plans. Choose custom requirements for a separate quote.</p>
-            <div class="infrastructure-options">
-              <label class="goal-option infrastructure-option">
-                <input type="checkbox" name="package" value="The Digital Foundation — R349 / month" data-package-base data-price="349" checked required />
-                <span>The Digital Foundation — R349 / month</span>
-              </label>
-              <label class="goal-option infrastructure-option">
-                <input type="checkbox" name="package_addons" value="Advanced Portfolio &amp; Media Gallery — +R70 / month" data-price="70" />
-                <span>Advanced Portfolio &amp; Media Gallery — +R70 / month</span>
-              </label>
-              <label class="goal-option infrastructure-option">
-                <input type="checkbox" name="package_addons" value="Dynamic Video Showcase — +R110 / month" data-price="110" />
-                <span>Dynamic Video Showcase — +R110 / month</span>
-              </label>
-              <label class="goal-option infrastructure-option">
-                <input type="checkbox" name="package_addons" value="Strategic Conversion &amp; Lead-Capture Engine — +R140 / month" data-price="140" />
-                <span>Strategic Conversion &amp; Lead-Capture Engine — +R140 / month</span>
-              </label>
-              <label class="goal-option infrastructure-option">
-                <input type="checkbox" name="custom_requirements" value="Something else / Custom requirements" />
-                <span>Something else / Custom requirements</span>
-              </label>
+          <div class="contact-form-layout form-field-full">
+            <fieldset class="goal-field infrastructure-field">
+              <legend>Select Your Required Infrastructure:</legend>
+              <p class="infrastructure-hint">The foundation is required for standard monthly plans. Choose custom requirements for a separate quote.</p>
+              <div class="infrastructure-options">
+                <label class="goal-option infrastructure-option">
+                  <input type="checkbox" name="package" value="The Digital Foundation — R349 / month" data-package-base data-price="349" checked required />
+                  <span>The Digital Foundation — R349 / month</span>
+                </label>
+                <label class="goal-option infrastructure-option">
+                  <input type="checkbox" name="package_addons" value="Advanced Portfolio &amp; Media Gallery — +R70 / month" data-price="70" />
+                  <span>Advanced Portfolio &amp; Media Gallery — +R70 / month</span>
+                </label>
+                <label class="goal-option infrastructure-option">
+                  <input type="checkbox" name="package_addons" value="Dynamic Video Showcase — +R110 / month" data-price="110" />
+                  <span>Dynamic Video Showcase — +R110 / month</span>
+                </label>
+                <label class="goal-option infrastructure-option">
+                  <input type="checkbox" name="package_addons" value="Strategic Conversion &amp; Lead-Capture Engine — +R140 / month" data-price="140" />
+                  <span>Strategic Conversion &amp; Lead-Capture Engine — +R140 / month</span>
+                </label>
+                <label class="goal-option infrastructure-option">
+                  <input type="checkbox" name="custom_requirements" value="Something else / Custom requirements" />
+                  <span>Something else / Custom requirements</span>
+                </label>
+              </div>
+              <p class="infrastructure-total" id="infrastructure-total" role="status" aria-live="polite" hidden></p>
+            </fieldset>
+            <div class="contact-details">
+              <div class="form-field">
+                <label for="contact-name">Your name</label>
+                <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Jane Smith" required />
+              </div>
+              <div class="form-field">
+                <label for="contact-email">Email address</label>
+                <input id="contact-email" name="email" type="email" autocomplete="email" placeholder="jane@company.com" required />
+              </div>
+              <div class="form-field">
+                <label for="contact-phone">Phone number</label>
+                <input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="+27 12 345 6789" />
+              </div>
+              <div class="form-field">
+                <label for="contact-business">Business name <span>(optional)</span></label>
+                <input id="contact-business" name="business" type="text" autocomplete="organization" placeholder="Your business" />
+              </div>
+              <div class="form-field">
+                <label for="contact-website">Current website <span>(optional)</span></label>
+                <input id="contact-website" name="current_website" type="text" inputmode="url" placeholder="www.yourbusiness.co.za" />
+              </div>
             </div>
-            <p class="infrastructure-total" id="infrastructure-total" role="status" aria-live="polite" hidden></p>
-          </fieldset>
-          <div class="form-field">
-            <label for="contact-name">Your name</label>
-            <input id="contact-name" name="name" type="text" autocomplete="name" placeholder="Jane Smith" required />
-          </div>
-          <div class="form-field">
-            <label for="contact-email">Email address</label>
-            <input id="contact-email" name="email" type="email" autocomplete="email" placeholder="jane@company.com" required />
-          </div>
-          <div class="form-field">
-            <label for="contact-phone">Phone number</label>
-            <input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="+27 12 345 6789" />
-          </div>
-          <div class="form-field">
-            <label for="contact-business">Business name <span>(optional)</span></label>
-            <input id="contact-business" name="business" type="text" autocomplete="organization" placeholder="Your business" />
-          </div>
-          <div class="form-field">
-            <label for="contact-website">Current website <span>(optional)</span></label>
-            <input id="contact-website" name="current_website" type="text" inputmode="url" placeholder="www.yourbusiness.co.za" />
           </div>
           <fieldset class="goal-field form-field-full">
             <legend>What are your business goals? <span>(select all that apply)</span></legend>
