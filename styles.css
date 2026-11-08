@@ -3081,17 +3081,20 @@ body.motion-ready [data-reveal].is-visible {
   color-scheme: dark;
 }
 
-.form-field input {
+.form-field input,
+.form-field textarea {
   border-color: var(--tech-border);
   background: #152643;
   color: var(--foreground);
 }
 
-.form-field input::placeholder {
+.form-field input::placeholder,
+.form-field textarea::placeholder {
   color: #a7b5c5;
 }
 
-.form-field input:focus {
+.form-field input:focus,
+.form-field textarea:focus {
   border-color: var(--tech-accent);
   background: #152643;
   box-shadow: 0 0 0 3px rgb(101 229 227 / 18%);
