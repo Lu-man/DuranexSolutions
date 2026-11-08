@@ -54,6 +54,50 @@ const contactForm = document.querySelector("#contact-form");
 const formStatus = document.querySelector("#form-status");
 
 if (contactForm instanceof HTMLFormElement && formStatus) {
+  const packageBase = contactForm.querySelector("[data-package-base]");
+  const packageAddons = [...contactForm.querySelectorAll('input[name="package_addons"]')];
+  const customRequirements = contactForm.querySelector('input[name="custom_requirements"]');
+  const packageTotal = contactForm.querySelector("#infrastructure-total");
+  if (!(packageBase instanceof HTMLInputElement) || !(customRequirements instanceof HTMLInputElement) ||
+      !(packageTotal instanceof HTMLElement) || !packageAddons.every((input) => input instanceof HTMLInputElement)) {
+    throw new Error("The contact form package selector is incomplete.");
+  }
+  const calculatePackageTotal = () => {
+    const selected = [packageBase, ...packageAddons].filter((input) => input.checked && !input.disabled);
+    return selected.reduce((total, input) => {
+      const price = Number(input.dataset.price);
+      if (!Number.isFinite(price) || price <= 0) {
+        throw new Error("A package price is missing or invalid.");
+      }
+      return total + price;
+    }, 0);
+  };
+  const updatePackageSelection = () => {
+    const isCustom = customRequirements.checked;
+    packageBase.disabled = isCustom;
+    packageAddons.forEach((input) => { input.disabled = isCustom; });
+    packageTotal.hidden = false;
+    packageTotal.textContent = isCustom
+      ? "Custom requirements — pricing requires a separate quote."
+      : packageBase.checked
+        ? `Estimated package total: R${calculatePackageTotal()} / month`
+        : "Select the required Digital Foundation to see your monthly total.";
+  };
+  [packageBase, ...packageAddons, customRequirements].forEach((input) => input.addEventListener("change", updatePackageSelection));
+  document.querySelectorAll("[data-enterprise-quote]").forEach((link) => {
+    link.addEventListener("click", () => {
+      customRequirements.checked = true;
+      updatePackageSelection();
+    });
+  });
+  document.querySelectorAll("[data-standard-quote]").forEach((link) => {
+    link.addEventListener("click", () => {
+      customRequirements.checked = false;
+      updatePackageSelection();
+    });
+  });
+  updatePackageSelection();
+
   const goalInputs = [...contactForm.querySelectorAll('input[name="business_goals"]')];
   const updateGoalValidity = () => {
     if (goalInputs[0] instanceof HTMLInputElement) {
@@ -74,6 +118,13 @@ if (contactForm instanceof HTMLFormElement && formStatus) {
 
     const formData = new FormData(contactForm);
     formData.set("business_goals", formData.getAll("business_goals").join(", "));
+    const selectedAddons = formData.getAll("package_addons");
+    if (selectedAddons.length) {
+      formData.set("package_addons", selectedAddons.join(", "));
+    }
+    if (!customRequirements.checked) {
+      formData.set("estimated_monthly_package_zar", String(calculatePackageTotal()));
+    }
     const name = String(formData.get("name") ?? "");
     formData.append("subject", `Website enquiry from ${name}`);
     formData.append("from_name", "Duranex Website");
@@ -107,6 +158,7 @@ if (contactForm instanceof HTMLFormElement && formStatus) {
 
       formStatus.textContent = "Thanks for your enquiry. We'll be in touch soon.";
       contactForm.reset();
+      updatePackageSelection();
       updateGoalValidity();
     } catch (error) {
       console.error("Contact form submission failed:", error);
