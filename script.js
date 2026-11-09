@@ -188,7 +188,15 @@ if (floatingContact instanceof HTMLElement && contactSection instanceof HTMLElem
   };
   window.addEventListener("scroll", scheduleContactUpdate, { passive: true });
   window.addEventListener("resize", scheduleContactUpdate, { passive: true });
-  updateFloatingContact();
+  if ("IntersectionObserver" in window) {
+    const initialContactObserver = new IntersectionObserver(([entry], observer) => {
+      floatingContact.hidden = entry.boundingClientRect.top <= window.innerHeight;
+      observer.disconnect();
+    });
+    initialContactObserver.observe(contactSection);
+  } else {
+    requestAnimationFrame(scheduleContactUpdate);
+  }
 }
 
 const hero = document.querySelector(".hero");
